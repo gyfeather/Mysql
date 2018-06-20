@@ -12,11 +12,16 @@ Mysql download community 版本（区分x86\x64-bit）
 （三）测试成功
 在windows命令行(cmd)下，输入mysql -? 如果一大段代码则代表成功
                                              mysql -uroot -p 如果提示输入数据库密码则代表成功
-
+（四）环境变更（修改导入导出安全目录限制）
+   在本机C:\ProgramData\MySQL\MySQL Server 5.7目录下找到my.ini
+   修改secure-file-priv=‘’
+  重启数据库（“win键+R——输入“服务”——找到MySQLXX——右键重启服务）
+ 
 二、数据导入
 （一）csv和json格式
     方法1.进入mysql的图形化软件（mysql workbench)后，”选中数据库(schema)——右键点击Tables——data import wizard“，再根据提示进行。
-    方法2.进入mysql的图形化软件（mysql workbench)后，进行建表后在mysql命令行下 load data infile "xxx.csv" into table table_name fields terminated by ','  
+    方法2.进入mysql的图形化软件（mysql workbench)后，进行建表后，将数据文件放到C:\ProgramData\MySQL\MySQL Server 5.7\Data\xxxx目录下
+                                                                                             在mysql命令行下 load data infile "xxx.csv" into table table_name fields terminated by ','  
      （1）可视化建表，右键点击Tables——create table ，再根据提示输入字段名、字段类型(详见”数据类型“)
      （2）命令行建表，根据一（三）进入mysql 命令行 create table table_name(字段名1 数据类型,字段名2 数据类型…… 字段名n 数据类型) 
 （二）xls、xlsm等excel格式
