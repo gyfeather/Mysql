@@ -1,5 +1,5 @@
 ###说明###
-更新请参见
+更新请参见https://github.com/gyfeather/Mysql
 
 #########
 
