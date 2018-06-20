@@ -1,0 +1,38 @@
+###说明###
+更新请参见
+
+#########
+
+一、MYSQL下载与安装
+(一)下载
+https://dev.mysql.com/downloads/
+Mysql download community 版本（区分x86\x64-bit）
+(二)安装
+计算机环境需要有vc2013++,vc2015++,如果没有，请保持安装时电脑网络连接成功，则可以自动下载。
+（三）测试成功
+在windows命令行(cmd)下，输入mysql -? 如果一大段代码则代表成功
+                                             mysql -uroot -p 如果提示输入数据库密码则代表成功
+
+二、数据导入
+（一）csv和json格式
+    方法1.进入mysql的图形化软件（mysql workbench)后，”选中数据库(schema)——右键点击Tables——data import wizard“，再根据提示进行。
+    方法2.进入mysql的图形化软件（mysql workbench)后，进行建表后在mysql命令行下 load data infile "xxx.csv" into table table_name fields terminated by ','  
+     （1）可视化建表，右键点击Tables——create table ，再根据提示输入字段名、字段类型(详见”数据类型“)
+     （2）命令行建表，根据一（三）进入mysql 命令行 create table table_name(字段名1 数据类型,字段名2 数据类型…… 字段名n 数据类型) 
+（二）xls、xlsm等excel格式
+      打开另存为csv（逗号分隔格式）再按照（一）导入。
+ (三)txt格式
+  参照(一)中的方法2。先建表，再使用 load data infile "xxx.csv" into table table_name fields terminated by ','  
+（四）其他
+如果建表时不知道有哪些字段，要下载Notepad++，先用该软件打开数据源再观察决定。
+
+        
+三、数据类型
+常用：文本型:text,varchar(size );Number类型：int（size），float(size,d);date类型：date(),datetime()。
+其余余详见：http://www.w3school.com.cn/sql/sql_datatypes.asp
+
+四、数据库备份与还原
+（一）备份
+在windows命令行（cmd)    mysqldump -uroot -p --databases db_name > d:\abc.sql
+（二）还原
+mysql>source d:\abc.sql
