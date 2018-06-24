@@ -1,0 +1,59 @@
+﻿一、单表分析
+（一）查看表结构及数据
+   Select * from 表名 limit xxx（选择前X行的全字段数据，其中limit xxx 也可省略）
+（二）单条件过滤
+  Select 字段1, 字段2 from table（只查看指定字段，用字段1，字段2代替*）
+  Select * from table where 字段1=1000（精确筛选）
+  Select * from table where字段1 like”%1000%”（模糊筛选，包含1000）      
+                                                       not like ”%1000%” (不包含1000）      
+（三）多条件过滤
+   Select * from table where 字段1 like”%1000%”and 字段2=”%备付金%”
+（使用and（并列）、or（或））
+（四）分类汇总
+   Select * from table group by 字段1,字段2（按字段1分组，常用于日期、商户名称等）
+（五）排序
+    Select * from table order by 字段1 desc（降序，省略desc或替换为asc为升序）
+（六）正则表达式  
+ 1.多条件匹配
+      包含：  Select * from table where 字段1 regexp "利息|公积金|……" 
+     不包含：SELECT * FROM `check`.account_inner where 户名 regexp '(?!.*单|提出|提入|应付|代付|递延|……)^.*(?!.*递延|外汇|利息)^.*$'
+      测试： select "string" regexp condition如"[0-9] "
+ 2.常见字符意思
+    |  类似or                [abc]  abc之一                               {x,y} 重复x以上，y以下,
+   ^ 以某字符开始     $ 以某字符结尾
+ (七)筛选每日最后一笔数据
+   第一步增加序号列(如有，则省略） alter table 表名 add column 字段名 int not null primary key auto_increment first 
+   第二步                                             select * from 表名 where 序号列名 in (select max(序号列名) FROM 表名 group by 户名,日期)
+    
+   
+二、两表对比分析
+（一)a表有，b表无
+     方法1：select * from a where (select count(1) as num from b 
+                       where  
+a.﻿账号 =b.﻿账号)=0 
+     方法2.    select a.* from a
+left join b on 
+a.﻿账号=b.﻿账号 
+where b.﻿账号 is Null
+     方法3.    select a.* from a where a.﻿账号 not in (select b.﻿账号 from b)
+    （二）a,b表不同的数据行
+    方法1.    select a.* from a where a.﻿账号 not in (select b.﻿账号 from b)
+ union 
+                    
+                  select b.* from b where b.﻿账号 not in (select a.﻿账号 from a)
+
+
+三、表格处理
+  (一)增加一列
+      alter table 表名 add column 字段名 数据类型  first|after 某字段名
+ (二)删除某列
+     alter table 表名 drop column 字段名
+  (三)过滤条件并生成新表
+    Create table 新表名 (Select * from 旧表名);
+（四）过滤条件并追加至已有表
+    insert into 已有表名 select * from 旧表名;
+四、数据导出
+   1.查询结果直接输出。Select * into outfile 'C://Users//gyfea//Desktop//xxx.csv' from a;  其中 “C://Users//gyfea//Desktop//”为路径,请自行修改
+                                          
+             
+    
